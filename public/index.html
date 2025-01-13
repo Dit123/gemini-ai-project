@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gemini 2.0 Flash</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -41,10 +42,77 @@
         <span id="delete-chat-button" class="icon material-symbols-rounded">delete</span>
       </div>
     </form>
+    <video id="video-stream" width="640" height="480" autoplay></video>
+    <button id="start-video">Start Video</button>
+    <button id="start-voice">Start Voice</button>
+    <button id="stopVideoButton">Stop Video</button>
+    <button id="stopButton">Stop Voice</button>
+    <p id="output">Your voice input will appear here...</p>
+    <video id="video" autoplay muted style="width: 100%; max-width: 400px;"></video>
     <p class="disclaimer-text">
       Gemini 2.0 Flash may display inaccurate info, including about people, so double-check its responses.
     </p>
   </div>
+  <button id="start-all">Start Video & Voice</button>
+  <script>
+    document.getElementById('start-all').addEventListener('click', () => {
+        startVideo();
+        startRecognition();
+    });
+    </script>
+
+<script>
+  async function fetchInteractions() {
+      try {
+          const response = await fetch('/gemini/interactions');
+          if (!response.ok) {
+              throw new Error('Failed to fetch interactions');
+          }
+          const data = await response.json();
+          displayInteractions(data.interactions);
+      } catch (error) {
+          console.error(error);
+          alert('Error fetching interactions');
+      }
+  }
+
+  function displayInteractions(interactions) {
+      const container = document.getElementById('interactions-container');
+      container.innerHTML = '';
+      if (interactions.length === 0) {
+          container.innerHTML = '<p>No interactions found.</p>';
+          return;
+      }
+      interactions.forEach((interaction) => {
+          const interactionElement = document.createElement('div');
+          interactionElement.textContent = interaction.message;
+          container.appendChild(interactionElement);
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', fetchInteractions);
+
+  document.getElementById('ask-form').addEventListener('submit', async (event) => {
+      event.preventDefault(); 
+      const input = document.getElementById('ask-input').value;
+      try {
+          const response = await fetch('/gemini/ask', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ question: input })
+          });
+          if (!response.ok) {
+              throw new Error('Failed to ask Gemini');
+          }
+          const data = await response.json();
+          document.getElementById('response-container').textContent = data.response;
+      } catch (error) {
+          console.error(error);
+          alert('Error asking Gemini');
+      }
+  });
+  </script>
+
   <script src="app.js"></script>
 </body>
 </html>

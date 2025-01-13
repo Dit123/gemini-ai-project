@@ -7,7 +7,7 @@ export const createInteractionsTable = async () => {
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 command VARCHAR(255) NOT NULL,
                 response TEXT NOT NULL,
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )`;
 
         await executeQuery(query, []);
