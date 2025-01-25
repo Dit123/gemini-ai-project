@@ -21,19 +21,7 @@ Install all required dependencies:
 bash
 Copy
 Edit
-npm install  
-Configure your environment:
-
-Create a .env file in the root directory with the following variables:
-makefile
-Copy
-Edit
-DB_HOST=<your-database-host>
-DB_USER=<your-database-username>
-DB_PASSWORD=<your-database-password>
-DB_NAME=<your-database-name>
-PORT=5000
-Set up the database:
+npm install 
 
 Ensure your MySQL server is running.
 The required tables will be automatically created when the server starts.
