@@ -1,5 +1,5 @@
 import { response } from "express";
-import { processCommand, getAllInteractions, interactWithGemini, recognizeSpeech } from "./gemini.service.js";
+import { processCommand, getAllInteractions, recognizeSpeech } from "./gemini.service.js";
 
 
 export const handleCommand = async (req, res) => {
@@ -29,23 +29,6 @@ export const fetchAllInteractions = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
- 
-
-export const askGeminiQuestion = async (req, res) => {
-    const { question } = req.body; 
-    if (!question) {
-        return res.status(400).json({ error: "Question is required" });
-    }
-
-    try {
-        const response = await interactWithGemini(question);
-        res.status(200).json({ response });
-    } catch (error) {
-        console.error("Error while asking Gemini:", error);
-        res.status(500).json({ error: "Failed to process the question" });
-    }
-}
-
 
 export const handleVoiceCommand = async (req, res) => {
     const { audioFile } = req.files; 

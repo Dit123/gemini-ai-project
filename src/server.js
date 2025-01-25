@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
 import { config } from './config.js/env.js';
 import { createInteractionsTable } from './gemini/gemini.model.js';
 import { geminiRouter } from './gemini/gemini.route.js';
@@ -9,6 +10,14 @@ const app = express();
 
 const __dirname = path.resolve();
 
+app.use(cors());
+
+app.use(cors({
+    origin: 'http://127.0.0.1:5500',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));  
+  
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));

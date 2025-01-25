@@ -1,13 +1,12 @@
 import { Router } from "express";
-import { handleCommand, fetchAllInteractions, askGeminiQuestion, handleVoiceCommand } from "./gemini.controller.js";
+import { handleCommand, fetchAllInteractions, handleVoiceCommand } from "./gemini.controller.js";
 import { upload } from "../../middleware/multer.js";
 
 export const geminiRouter = Router();
 
-geminiRouter.get("/process-command", handleCommand);
+geminiRouter.post("/process-command", handleCommand);
 geminiRouter.get("/interactions", fetchAllInteractions);
-geminiRouter.get("/ask", askGeminiQuestion);
-geminiRouter.get("/voice-command", upload.single('audioFile'), async (req, res) => {
+geminiRouter.post("/voice-command", upload.single('audioFile'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No audio file uploaded' });
     }
