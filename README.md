@@ -6,7 +6,6 @@ Features
 Command Processing: Handles user input and generates intelligent responses using the Gemini AI system.
 Database Logging: Stores all user interactions and system responses for future reference and analysis.
 RESTful API Endpoints: Allows interaction with the system programmatically.
-
 Setup Instructions
 To run the project locally, follow these steps:
 
@@ -25,7 +24,15 @@ Edit
 npm install  
 Configure your environment:
 
-Create a .env file in the root directory with the following variables
+Create a .env file in the root directory with the following variables:
+makefile
+Copy
+Edit
+DB_HOST=<your-database-host>
+DB_USER=<your-database-username>
+DB_PASSWORD=<your-database-password>
+DB_NAME=<your-database-name>
+PORT=5000
 Set up the database:
 
 Ensure your MySQL server is running.
